@@ -1,0 +1,6 @@
+import Link from "next/link";
+import Image from "next/image";
+import {items} from "@/lib/content";
+type Props={searchParams:Promise<{q?:string}>};
+export default async function SearchPage({searchParams}:Props){const {q=""}=await searchParams;const term=q.trim().toLowerCase();const filtered=term?items.filter(x=>`${x.title} ${x.description} ${x.area} ${x.subtitle}`.toLowerCase().includes(term)):[];
+return <><div className="inner-header"><Link className="back-link" href="/">← Dashboard</Link><div className="eyebrow">CITY MAIN SEARCH</div><h1>Search results</h1><p>{term?`Showing sample listings matching “${q}”`:'Enter a search term in the header to explore the demo listings.'}</p></div>{filtered.length===0?<div className="empty-state">{term?'No sample listings found. Try “Kochi”, “hair”, “music” or “restaurant”.':'Search across places, events, salons, stores, restaurants and hotels.'}</div>:<div className="directory-grid">{filtered.map(x=><Link href={`/${x.category}`} className="listing-card result-link" key={x.id}><div className="listing-image"><Image src={x.image} alt="" fill sizes="(max-width:700px) 100vw, 33vw" style={{objectFit:"cover"}}/></div><div className="listing-content"><span className="content-tag">{x.category}</span><h2>{x.title}</h2><p>📍 {x.area} · {x.subtitle}</p><span className="tiny-link">Browse category →</span></div></Link>)}</div>}</>}

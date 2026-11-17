@@ -3,7 +3,7 @@
 **Project:** City Main  
 **Initial city:** Kochi, Kerala, India  
 **Document status:** Draft for review  
-**Last updated:** 16 November 2026  
+**Last updated:** 18 November 2026  
 **Phase:** 1 — Requirements and planning
 
 ## 1. Product overview
@@ -19,14 +19,14 @@ People currently use separate apps or websites to discover places, check events,
 ## 3. Goals
 
 1. Help someone discover relevant places, events and services in Kochi.
-2. Make it possible to complete a **real booking flow** for a free event or a participating appointment-based service.
+2. Provide a verified, capacity-safe booking system for free events, salons, participating local stores and restaurant table requests; hotel listings begin as informational only.
 3. Offer a clean, responsive dashboard for discovery and booking management.
 4. Show useful city context, such as weather and verified location advisories.
 5. Give administrators and participating providers a simple way to maintain accurate listings, availability and bookings.
 
 ### Non-goals for Version 1
 
-Version 1 will **not** attempt to support every city, every kind of business, live public-transport tracking, hotel-room inventory, payment processing, AI-generated itineraries, or automated scraping of third-party booking sites.
+Version 1 will **not** attempt to support every city, every kind of business, live public-transport tracking, hotel-room inventory, payment processing, AI-generated itineraries, or automated scraping of third-party booking sites. The current frontend is a **demo** and is not connected to providers or real availability.
 
 ## 4. Target users and permissions
 
@@ -43,7 +43,7 @@ Providers must not access another provider's private bookings. Administrator act
 
 ### 5.1 Dashboard and navigation — Must have
 
-- Kochi dashboard with a search bar and clear links to **Explore Places**, **Events**, **Services**, **My Bookings** and **Profile**.
+- Kochi dashboard with a search bar and clear links to **Explore Places**, **Events**, **Salons**, **Local Stores**, **Restaurants & Hotels**, **My Bookings** and **Profile**.
 - Sections for featured places, upcoming events, bookable services, latest notices and a weather summary.
 - Responsive design for desktop and mobile; helpful loading, empty and error states.
 - City is set to Kochi for V1 (no city-switching required yet).
@@ -69,21 +69,29 @@ Providers must not access another provider's private bookings. Administrator act
 
 ### 5.4 Appointment-based service bookings — Must have
 
-- Start with **one supported service category (salons)** to validate the booking engine.
+- Give **salons and local stores equal priority** as booking categories, with shared availability and booking infrastructure.
+- Salon bookings may cover grooming/service appointments. Local-store bookings may cover consultations, pickup windows and in-store service appointments.
 - Provider can define services, duration, availability windows, blackout periods and slot capacity.
 - User chooses service, date and time, then submits a booking; status is **confirmed** only if the slot is successfully reserved (or **pending** if the provider requires manual acceptance).
 - Prevent overlapping bookings beyond actual slot capacity; show booking status and reference in My Bookings.
 - Provider can confirm/decline pending requests and manage their appointments.
 - Cancellation follows a visible policy; no payments in V1.
 
-### 5.5 Kochi city updates — Must have
+### 5.5 Restaurants & Hotels — Must have for discovery, limited booking
+
+- Give Restaurants & Hotels a prominent dashboard entry alongside Events, Salons and Local Stores.
+- Restaurants: list restaurants, menus/service details if supplied, area, contact and review summaries. Enable **table reservation requests** for verified partner restaurants with provider acceptance and visible booking status.
+- Hotels: list accommodation details and contact/location information in V1. **Live room inventory, room bookings and payment processing are deferred** until provider integrations are available.
+- Never claim that table availability or hotel rooms are live without verified provider data.
+
+### 5.6 Kochi city updates — Must have
 
 - Display weather summary using an external data provider, with source and last-updated time.
 - Show admin-published notices for place closures, access restrictions or event changes, including date, affected place/event, source link and validity/expiry where known.
 - Clearly label unverified or outdated information. Never imply that all city restrictions are monitored in real time.
 - Provide official transport information links for bus/train travel; **live departures, fares and vehicle tracking are later-phase features**.
 
-### 5.6 Accounts and administration — Must have
+### 5.7 Accounts and administration — Must have
 
 - Account registration, login, logout and secure password reset.
 - User profile and booking history; users can access only their own reservations.
@@ -95,9 +103,12 @@ Providers must not access another provider's private bookings. Administrator act
 
 1. **Explore:** Dashboard → Search/filter places → Place detail → View location and notices.
 2. **Book event:** Events → Event detail → Select seats → Sign in (if required) → Confirm reservation → Booking reference → My Bookings.
-3. **Book salon:** Services → Salon → Choose service → Choose available date/time → Confirm or request → My Bookings.
-4. **Manage booking:** My Bookings → Booking details → Cancel (when allowed) → Updated status.
-5. **Admin update:** Admin → Edit place/event or publish advisory → Updated information visible to users with date and source.
+3. **Book salon:** Salons → Choose provider and service → Choose available date/time → Confirm/request → My Bookings.
+4. **Book local store:** Local Stores → Select provider and service → Choose date/time → Confirm/request → My Bookings.
+5. **Book restaurant table:** Restaurants & Hotels → Restaurant → Table/date/time → Provider acceptance → My Bookings.
+6. **Explore hotels:** Restaurants & Hotels → Hotel details → Contact or external verified booking information (no in-app room reservation in V1).
+7. **Manage booking:** My Bookings → Booking details → Cancel (when allowed) → Updated status.
+8. **Admin update:** Admin → Edit place/event or publish advisory → Updated information visible to users with date and source.
 
 These flows will be expanded in `docs/user-flows.md`.
 
@@ -109,14 +120,16 @@ These flows will be expanded in `docs/user-flows.md`.
 | Explore Places | Category filters, result cards, optional map links, place details |
 | Events | Event cards, date/category filters, availability indication |
 | Event Detail / Booking | Event information, date/venue, tickets quantity, rules, booking confirmation |
-| Services / Salon Detail | Service list, prices if provided, availability calendar, appointment form |
+| Salons / Salon Detail | Service list, prices if provided, availability calendar, appointment form |
+| Local Stores | Shop or service listings, service details, pickup or appointment slots |
+| Restaurants & Hotels | Restaurant table requests; hotel information, contacts and details |
 | My Bookings | Tabs for events and services, status, reference, cancellation action |
 | Sign in / Sign up | Authentication and password recovery |
 | Admin / Provider | Manage listings, events, slots, reservations and advisories |
 
 ## 8. Initial data entities (draft)
 
-`User`, `City`, `Place`, `Business`, `Category`, `Review`, `Event`, `EventTicketType`, `EventBooking`, `Service`, `ServiceAvailability`, `ServiceBooking`, `Notice` and `BookingAuditLog`.
+`User`, `City`, `Place`, `Business`, `Category`, `Review`, `Event`, `EventTicketType`, `EventBooking`, `Service`, `ServiceAvailability`, `ServiceBooking`, `RestaurantTableRequest`, `Notice` and `BookingAuditLog`.
 
 This is a planning list, not a finalized schema. Detailed fields and relationships belong in `docs/database-design.md`. For V1, City Main stores only Kochi but retains a `City` entity to allow expansion.
 
@@ -165,7 +178,7 @@ These are ideas, not promised release dates. Priorities will be reviewed after t
 
 ## 13. Open questions before implementation
 
-1. Which **Kochi salons and event organizers** will supply genuine availability for the MVP? Test data may be used in development but must be labeled as demo data.
+1. Which **Kochi salons, store operators, participating restaurants and event organizers** will supply genuine availability for the MVP? Test data may be used in development but must be labeled as demo data.
 2. Are salon appointments **instant-confirmation** or **provider-approved** by default?
 3. What are the cancellation limits, booking quantity limits and minimum customer details?
 4. Which weather and maps providers will be used, and what are their licensing/cost limits?
