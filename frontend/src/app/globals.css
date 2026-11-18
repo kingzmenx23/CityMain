@@ -47,3 +47,50 @@ button,input,select{font:inherit}button{cursor:pointer}a{text-decoration:none;co
 @media(max-width:1020px){.sidebar{width:210px;flex-basis:210px}.page-container{padding:20px 18px}.topbar{padding:12px 18px}.feature-grid{gap:10px}.feature-card{height:232px}.feature-card h3{font-size:21px}.feature-illustration{opacity:.27}.feature-copy{max-width:100%}.directory-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media(max-width:780px){.sidebar{position:fixed;left:0;top:0;transform:translateX(-105%);transition:transform .2s;width:255px;flex-basis:255px;box-shadow:0 10px 40px #0418431a}.sidebar.sidebar-open{transform:translateX(0)}.mobile-overlay{position:fixed;inset:0;z-index:29;border:0;background:#101c3c66}.menu-toggle{display:block;border:0;background:#eaf1ff;color:#174dbb;padding:9px 12px;border-radius:9px}.topbar{gap:10px;height:70px}.location-pill small,.profile-bubble{display:none}.top-search{max-width:none}.demo-banner{padding:8px 16px}.feature-grid{grid-template-columns:1fr 1fr}.feature-card:last-child{grid-column:auto;height:232px}.feature-illustration{opacity:.56}.dashboard-bottom{grid-template-columns:1fr}.highlights-panel{grid-column:auto}.highlight-row{grid-template-columns:repeat(3,minmax(0,1fr))}.promise-panel{grid-column:auto}.hero{height:auto;min-height:215px}.hero-copy{padding:27px}.hero-art{width:62%;opacity:.72}.section-heading{align-items:start;flex-direction:column}.section-helper{margin-top:7px}}
 @media(max-width:550px){.page-container{padding:16px 13px 30px}.topbar{padding:9px 12px}.top-search input{font-size:12px}.location-pill{padding:11px 8px;font-size:11px}.hero-copy{padding:23px}.hero h1{font-size:35px}.hero p{font-size:12px;max-width:300px}.hero-art{width:55%;opacity:.45}.hero:before{background:linear-gradient(90deg,rgba(231,242,255,1) 9%,rgba(231,242,255,.9) 50%,rgba(231,242,255,.2) 100%)}.feature-grid{grid-template-columns:1fr}.feature-card,.feature-card:last-child{height:204px;grid-column:auto}.feature-card h3{font-size:23px}.feature-card p{max-width:230px}.feature-illustration{width:43%;opacity:.65}.quick-actions{display:block}.quick-actions>span{display:block;margin-bottom:10px}.quick-links{gap:6px}.quick-links a{font-size:10px;padding:10px}.place-thumb{height:79px}.place-list{gap:7px}.place-tile strong{font-size:10px}.dining-tile{height:125px}.highlight-row{grid-template-columns:1fr}.highlight-image{width:54px;height:54px;flex-basis:54px}.side-panels{grid-template-columns:1fr}.directory-grid{grid-template-columns:1fr}.directory-toolbar{align-items:start;flex-direction:column}.form-grid{grid-template-columns:1fr}.modal-panel{padding:23px}.booking-record{align-items:start;flex-direction:column}.info-grid{grid-template-columns:1fr}.section-helper{font-size:11px}.app-footer{font-size:10px}}
+/* Fix City Main hero section */
+
+.hero {
+    position: relative;
+    height: auto;
+    min-height: 400px;
+    padding: 45px 50px;
+    display: flex;
+    align-items: center;
+    overflow: hidden;
+}
+
+.hero-copy {
+    position: relative;
+    z-index: 2;
+    max-width: 600px;
+    margin: 0;
+    transform: none;
+}
+
+.hero h1 {
+    line-height: 1.1;
+    margin: 16px 0;
+}
+
+.hero p {
+    margin: 0 0 24px;
+    line-height: 1.6;
+}
+
+.hero .primary-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 15px;
+}
+
+/* Mobile responsiveness */
+@media (max-width: 768px) {
+    .hero {
+        min-height: 380px;
+        padding: 30px 24px;
+    }
+
+    .hero h1 {
+        font-size: clamp(32px, 8vw, 48px);
+    }
+}
